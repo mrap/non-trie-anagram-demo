@@ -59,19 +59,3 @@ end
 puts "Letter parse matched #{@letter_parse_count} words"
 puts "Word Parse matched #{@word_parse_count} words"
 
-# puts "Performing Basic Letter Parse..."
-# puts "This is supposed to be slow."
-# time_taken = Benchmark.realtime { @count = basic_letter_parse("yxmijcmknbshdwifzrsmueist").count }
-# puts "Matched #{@count} words"
-# puts "Time taken: #{time_taken} seconds"
-#
-# baseline = time_taken
-# puts "Baseline: #{time_taken} seconds"
-# puts "\n"
-#
-# puts "Performing Word Parse"
-# time_taken = Benchmark.realtime { @count = word_parse("yxmijcmknbshdwifzrsmueist").count }
-# puts "Matched #{@count} words"
-# puts "Total time: #{time_taken} seconds"
-# puts "#{(baseline / time_taken).round(1)}x faster!"
-

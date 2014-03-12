@@ -28,10 +28,11 @@ end
 # Used as a starting benchmark.
 def basic_letter_parse(letters)
   matching_words = []
+  regex = Regexp.new("[#{letters}]").freeze
   @words_collection.each do |word|
     for i in 0..word.length-1 do
       letter = word[i]
-      break unless letter =~ /[#{letters}]/
+      break unless letter =~ regex
       matching_words << word if i == word.length - 1
     end
   end
@@ -43,25 +44,34 @@ end
 def word_parse(letters)
   matching_words = []
   opposite_letters = opposite_letters(letters)
+  regex = Regexp.new("[#{opposite_letters}]").freeze
   @words_collection.each do |word|
-    matching_words << word unless word =~ /[#{opposite_letters}]/
+    matching_words << word unless word =~ regex
   end
   matching_words
 end
 
-puts "Performing Basic Letter Parse..."
-puts "This is supposed to be slow."
-time_taken = Benchmark.realtime { @count = basic_letter_parse("yxmijcmknbshdwifzrsmueist").count }
-puts "Matched #{@count} words"
-puts "Time taken: #{time_taken} seconds"
+Benchmark.bm do |b|
+  b.report("Letter parse") { @letter_parse_count = basic_letter_parse("yxmijcmknbshdwifzrsmueist").count }
+  b.report("Word parse") { @word_parse_count = word_parse("yxmijcmknbshdwifzrsmueist").count }
+end
 
-baseline = time_taken
-puts "Baseline: #{time_taken} seconds"
-puts "\n"
+puts "Letter parse matched #{@letter_parse_count} words"
+puts "Word Parse matched #{@word_parse_count} words"
 
-puts "Performing Word Parse"
-time_taken = Benchmark.realtime { @count = word_parse("yxmijcmknbshdwifzrsmueist").count }
-puts "Matched #{@count} words"
-puts "Total time: #{time_taken} seconds"
-puts "#{(baseline / time_taken).round(1)}x faster!"
+# puts "Performing Basic Letter Parse..."
+# puts "This is supposed to be slow."
+# time_taken = Benchmark.realtime { @count = basic_letter_parse("yxmijcmknbshdwifzrsmueist").count }
+# puts "Matched #{@count} words"
+# puts "Time taken: #{time_taken} seconds"
+#
+# baseline = time_taken
+# puts "Baseline: #{time_taken} seconds"
+# puts "\n"
+#
+# puts "Performing Word Parse"
+# time_taken = Benchmark.realtime { @count = word_parse("yxmijcmknbshdwifzrsmueist").count }
+# puts "Matched #{@count} words"
+# puts "Total time: #{time_taken} seconds"
+# puts "#{(baseline / time_taken).round(1)}x faster!"
 

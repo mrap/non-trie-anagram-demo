@@ -31,7 +31,7 @@ def basic_letter_parse(letters)
   @words_collection.each do |word|
     for i in 0..word.length-1 do
       letter = word[i]
-      break unless letter.match(/[#{letters}]/)
+      break unless letter =~ /[#{letters}]/
       matching_words << word if i == word.length - 1
     end
   end
@@ -44,7 +44,7 @@ def word_parse(letters)
   matching_words = []
   opposite_letters = opposite_letters(letters)
   @words_collection.each do |word|
-    matching_words << word unless word.match(/[#{opposite_letters}]/)
+    matching_words << word unless word =~ /[#{opposite_letters}]/
   end
   matching_words
 end
